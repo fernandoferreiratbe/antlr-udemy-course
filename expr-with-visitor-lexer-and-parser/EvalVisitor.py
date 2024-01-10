@@ -13,7 +13,12 @@ class EvalVisitor(ExprVisitor):
 
     def visitExpr(self, context: ExprParser.ExprContext):
         children = list(context.getChildren())
+        # Children as only one size represent the NUM from our grammar
         if len(children) == 1:
             return int(children[0].getText())
         else:
-            return self.visit(children[0]) + self.visit(children[2])
+            # More thant one represents an expression from our grammar
+            if children[1].getText() == '+':
+                return self.visit(children[0]) + self.visit(children[2])
+            else:
+                return self.visit(children[0]) - self.visit(children[2])
