@@ -20,6 +20,10 @@ class EvalVisitor(ExprVisitor):
         children = list(context.getChildren())
         return self.visit(children[0]) * self.visit(children[2])
 
+    def visitDiv(self, context: ExprParser.DivContext):
+        children = list(context.getChildren())
+        return self.visit(children[0]) / self.visit(children[2])
+
     def visitSum(self, context: ExprParser.SumContext):
         children = list(context.getChildren())
         return self.visit(children[0]) + self.visit(children[2])

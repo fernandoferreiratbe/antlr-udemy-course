@@ -6,6 +6,7 @@ grammar Expr;
 root: expr EOF ;
 
 expr: expr MUL expr  # Mul
+    | expr DIV expr  # Div
     | expr PLUS expr # Sum
     | expr SUB expr  # Sub
     | NUM            # Value
@@ -16,6 +17,7 @@ expr: expr MUL expr  # Mul
  */
 NUM: [0-9]+ ;
 MUL: '*' ;
+DIV: '/' ;
 PLUS: '+' ;
 SUB: '-' ;
 WS: [ \n]+ -> skip ;
