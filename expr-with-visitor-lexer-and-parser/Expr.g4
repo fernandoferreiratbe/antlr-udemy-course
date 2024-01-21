@@ -5,9 +5,9 @@ grammar Expr;
  */
 root: expr EOF ;
 
-expr: expr PLUS expr
-    | expr SUB expr
-    | NUM
+expr: expr PLUS expr # Sum
+    | expr SUB expr  # Sub
+    | NUM            # Value
     ;
 
 /*
