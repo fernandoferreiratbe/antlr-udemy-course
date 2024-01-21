@@ -5,7 +5,8 @@ grammar Expr;
  */
 root: expr EOF ;
 
-expr: expr PLUS expr # Sum
+expr: expr MUL expr  # Mul
+    | expr PLUS expr # Sum
     | expr SUB expr  # Sub
     | NUM            # Value
     ;
@@ -14,6 +15,7 @@ expr: expr PLUS expr # Sum
  * Lexer Rules
  */
 NUM: [0-9]+ ;
+MUL: '*' ;
 PLUS: '+' ;
 SUB: '-' ;
 WS: [ \n]+ -> skip ;

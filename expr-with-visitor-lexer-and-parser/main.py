@@ -1,4 +1,4 @@
-from antlr4 import *
+from antlr4 import InputStream, CommonTokenStream
 from ExprLexer import ExprLexer
 from ExprParser import ExprParser
 from EvalVisitor import EvalVisitor
