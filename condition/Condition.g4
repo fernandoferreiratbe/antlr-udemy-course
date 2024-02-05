@@ -1,5 +1,9 @@
 grammar Condition;
 
+/*
+ * Parser Ruler
+ */
+
 root: action+ EOF;
 
 action: 'if' expr action ('else' action)? # Condition
@@ -11,8 +15,12 @@ expr: expr GT expr # GreaterThan
     | NUM          # Value
     ;
 
+/*
+ * Lexer Rules
+ */
+
 GT: '>';
 LT: '<';
 NUM: [0-9]+;
 
-WS:[ \n]+ -> skip;
+WS: [ \t\r\n]+ -> skip;
