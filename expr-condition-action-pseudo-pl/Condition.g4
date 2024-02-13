@@ -12,7 +12,7 @@ expr: expr GT expr  # GreaterThan
     | expr EQ expr  # Equals
     | expr NEQ expr # NotEquals
     | expr ADD expr # Sum
-    | NUM           # NumvValue
+    | NUM           # NumValue
     ;
 
 GT: '>';
