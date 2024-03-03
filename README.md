@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 ## Generate Lexer and Parser and Visitor for Python3 language
 ```
-antlr4 -Dlanguage=Python3 -no-listener -visitor Expr.g4
+antlr4 -Dlanguage=Python3 -no-listener -visitor <grammar_name>.g4
 ```
 
 ## Project Structure
