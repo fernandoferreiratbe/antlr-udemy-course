@@ -1,7 +1,16 @@
 ## Antlr - Another Tool For Language Recognition
 
 
-### Generate Lexer and Parser and Visitor for Python3 language
+## Setup
+In order to reproduce, change or perform some test you should configure the virtual environment
+Note: These steps were ran into macOS operating system.
+```
+python -m vevn .anltr-venv
+source .antlr-venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+## Generate Lexer and Parser and Visitor for Python3 language
 ```
 antlr4 -Dlanguage=Python3 -no-listener -visitor Expr.g4
 ```
