@@ -5,7 +5,7 @@
 In order to reproduce, change or perform some test you should configure the virtual environment
 Note: These steps were ran into macOS operating system.
 ```
-python -m vevn .anltr-venv
+python -m venv .anltr-venv
 source .antlr-venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
