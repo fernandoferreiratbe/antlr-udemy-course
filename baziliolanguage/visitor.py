@@ -2,6 +2,8 @@ import os
 import operator
 from collections import defaultdict
 
+from utils import notes
+
 if __name__ is not None and "." in __name__:
     from .BazilioParser import BazilioParser
     from .BazilioVisitor import BazilioVisitor
@@ -30,8 +32,23 @@ class Visitor(BazilioVisitor):
         self.procs = []
         self.stack = []
         self.score = []
+        self.notes = notes.get_notes()
 
+    def __proc__(self, name, params_values):
+        # Error Handling
+        if len(self.procs[name].params) != len(params_values):
+            raise BazilioException(
+                f"In {name} proc was expecting {str(len(self.procs[name].params))} param(s). "
+                f"{str(len(params_values))} param(s) given.'"
+            )
 
+        proc_args = defaultdict(lambda: 0)
+        for param, value in zip(self.procs[name].params, params_values):
+            proc_args[param] = value
+
+        self.stack.append(proc_args)       # We push the arguments needed in procedure
+        self.visit(self.procs[name].inss)  # We execute the procedure
+        self.stack.pop()                   # We pop these arguments no longer needed
 
     def visitRoot(self, ctx: BazilioParser.RootContext):
         return super().visitRoot(ctx)
