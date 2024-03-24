@@ -51,25 +51,31 @@ class Visitor(BazilioVisitor):
         self.stack.pop()                   # We pop these arguments no longer needed
 
     def visitRoot(self, ctx: BazilioParser.RootContext):
-        return super().visitRoot(ctx)
+        for procedure in list(ctx.getChildren()):
+            self.visit(procedure)
 
     def visitProcedureDefinition(self, ctx: BazilioParser.ProcedureDefinitionContext):
         return super().visitProcedureDefinition(ctx)
 
     def visitParametersId(self, ctx: BazilioParser.ParametersIdContext):
-        return super().visitParametersId(ctx)
+        param_list = []
+        for param in list(ctx.getChildren()):
+            param_list.append(param.getText())
+
+        return param_list
 
     def visitInstructions(self, ctx: BazilioParser.InstructionsContext):
-        return super().visitInstructions(ctx)
+        for instruction in list(ctx.getChildren()):
+            self.visit(instruction)
 
     def visitInstruction(self, ctx: BazilioParser.InstructionContext):
-        return super().visitInstruction(ctx)
+        return self.visitChildren(ctx)
 
     def visitAssign(self, ctx: BazilioParser.AssignContext):
         return super().visitAssign(ctx)
 
     def visitInput_(self, ctx: BazilioParser.Input_Context):
-        return super().visitInput_(ctx)
+        self.stack[-1][ctx.getChild(1).getText()] = int(input())
 
     def visitOutput_(self, ctx: BazilioParser.Output_Context):
         return super().visitOutput_(ctx)
@@ -102,7 +108,11 @@ class Visitor(BazilioVisitor):
         return super().visitExpr(ctx)
 
     def visitParametersExpr(self, ctx: BazilioParser.ParametersExprContext):
-        return super().visitParametersExpr(ctx)
+        param_list = []
+        for param in list(ctx.getChildren()):
+            param_list.append(self.visit(param))
+
+        return param_list
 
     def visitList(self, ctx: BazilioParser.ListContext):
         return super().visitList(ctx)
