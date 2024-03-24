@@ -78,7 +78,22 @@ class Visitor(BazilioVisitor):
         self.stack[-1][ctx.getChild(1).getText()] = int(input())
 
     def visitOutput_(self, ctx: BazilioParser.Output_Context):
-        return super().visitOutput_(ctx)
+        nodes = list(ctx.getChildren())
+        for node in nodes[1:]:
+            value = self.visit(node)
+            if isinstance(value, list):
+                value = str(value)
+                value = value.replace(",", "")
+                value = value.replace("'", "")
+                if node != nodes[-1]:
+                    print(value, end=" ")
+                else:
+                    print(value)
+            else:
+                if node != nodes[-1]:
+                    print(self.visit(node), end=" ")
+                else:
+                    print(self.visit(node))
 
     def visitReprod(self, ctx: BazilioParser.ReprodContext):
         return super().visitReprod(ctx)
