@@ -105,7 +105,9 @@ class Visitor(BazilioVisitor):
         return super().visitCondition(ctx)
 
     def visitWhile_(self, ctx: BazilioParser.While_Context):
-        return super().visitWhile_(ctx)
+        nodes = list(ctx.getChildren())
+        while self.visit(nodes[1]) == 1:
+            self.visit(nodes[3])
 
     def visitAddElementToList(self, ctx: BazilioParser.AddElementToListContext):
         return super().visitAddElementToList(ctx)
