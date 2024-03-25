@@ -110,7 +110,14 @@ class Visitor(BazilioVisitor):
         return super().visitReprod(ctx)
 
     def visitProcedureCall(self, ctx: BazilioParser.ProcedureCallContext):
-        return super().visitProcedureCall(ctx)
+        nodes = list(ctx.getChildren())
+        name = nodes[0].getText()
+        parameters = self.visit(nodes[1])
+
+        if name not in self.procs:
+            raise BazilioException(f"Proc {name} not defined.")
+
+        self.__proc__(name=name, params_values=parameters)
 
     def visitCondition(self, ctx: BazilioParser.ConditionContext):
         return super().visitCondition(ctx)
