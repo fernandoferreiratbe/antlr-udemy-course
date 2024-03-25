@@ -83,7 +83,8 @@ class Visitor(BazilioVisitor):
         return self.visitChildren(ctx)
 
     def visitAssign(self, ctx: BazilioParser.AssignContext):
-        return super().visitAssign(ctx)
+        nodes = list(ctx.getChildren())
+        self.stack[-1][ctx.VAR().getText()] = self.visit(nodes[2])
 
     def visitInput_(self, ctx: BazilioParser.Input_Context):
         self.stack[-1][ctx.getChild(1).getText()] = int(input())
