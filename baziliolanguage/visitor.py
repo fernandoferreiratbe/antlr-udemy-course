@@ -55,7 +55,18 @@ class Visitor(BazilioVisitor):
             self.visit(procedure)
 
     def visitProcedureDefinition(self, ctx: BazilioParser.ProcedureDefinitionContext):
-        return super().visitProcedureDefinition(ctx)
+        nodes = list(ctx.getChildren())
+        name = nodes[0].getText()
+        parameters = self.visit(nodes[1])
+
+        if name in self.procs:
+            raise BazilioException(f"Proc {name} already defined.")
+
+        self.procs[name] = Process(
+            name=name,
+            params=parameters,
+            instructions=ctx.instructions()
+        )
 
     def visitParametersId(self, ctx: BazilioParser.ParametersIdContext):
         param_list = []
