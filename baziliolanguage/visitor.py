@@ -108,7 +108,18 @@ class Visitor(BazilioVisitor):
                     print(self.visit(node))
 
     def visitReprod(self, ctx: BazilioParser.ReprodContext):
-        return super().visitReprod(ctx)
+        nodes = list(ctx.getChildren())
+        input_notes = self.visit(nodes[1])
+        notes_to_be_played = []
+        if isinstance(input_notes, list):
+            for note in input_notes:
+                note = note[:1] + "'" + note[1:]
+                notes_to_be_played.append(note)
+            # Add to the score the notes list
+            self.score.extend(notes_to_be_played)
+        else:
+            notes_to_be_played = input_notes[:1] + input_notes[1:]
+            self.score.append(notes_to_be_played)
 
     def visitProcedureCall(self, ctx: BazilioParser.ProcedureCallContext):
         nodes = list(ctx.getChildren())
