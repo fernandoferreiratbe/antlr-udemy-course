@@ -26,25 +26,25 @@ removeElementFromList: CUTTING VAR LEFT_BRACKET expr RIGHT_BRACKET;
 sizeFromList: SIZE VAR;
 query: VAR LEFT_BRACKET expr RIGHT_BRACKET;
 
-expr: expr MUL expr
-    | expr DIV expr
-    | expr MOD expr
-    | expr SUM expr
-    | expr SUB expr
-    | expr GT expr
-    | expr LT expr
-    | expr GET expr
-    | expr LET expr
-    | expr EQ expr
-    | expr NEQ expr
-    | sizeFromList
-    | query
-    | list
-    | LEFT_PARANTHESES expr RIGHT_PARANTHESES
-    | VAR
-    | STRING
-    | NUM
-    | NOTE
+expr: expr MUL expr  # Multiplication
+    | expr DIV expr  # Division
+    | expr MOD expr  # Module
+    | expr SUM expr  # Sum
+    | expr SUB expr  # Subtraction
+    | expr GT expr   # GreaterThan
+    | expr LT expr   # LessThan
+    | expr GET expr  # GreaterThanOrEqualsTo
+    | expr LET expr  # LessThanOrEqualsTo
+    | expr EQ expr   # EqualsTo
+    | expr NEQ expr  # NotEqualsTo
+    | sizeFromList   # ListSize
+    | query          # QueryExpression
+    | list           # ListExpression
+    | LEFT_PARANTHESES expr RIGHT_PARANTHESES  # Expression
+    | VAR            # Variable
+    | STRING         # String
+    | NUM            # Number
+    | NOTE           # Note
     ;
 
 parametersExpr: (expr)*;

@@ -89,8 +89,98 @@ class BazilioVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BazilioParser#expr.
-    def visitExpr(self, ctx:BazilioParser.ExprContext):
+    # Visit a parse tree produced by BazilioParser#Multiplication.
+    def visitMultiplication(self, ctx:BazilioParser.MultiplicationContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Variable.
+    def visitVariable(self, ctx:BazilioParser.VariableContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#ListExpression.
+    def visitListExpression(self, ctx:BazilioParser.ListExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#NotEqualsTo.
+    def visitNotEqualsTo(self, ctx:BazilioParser.NotEqualsToContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#GreaterThanOrEqualsTo.
+    def visitGreaterThanOrEqualsTo(self, ctx:BazilioParser.GreaterThanOrEqualsToContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Sum.
+    def visitSum(self, ctx:BazilioParser.SumContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#String.
+    def visitString(self, ctx:BazilioParser.StringContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#ListSize.
+    def visitListSize(self, ctx:BazilioParser.ListSizeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#LessThan.
+    def visitLessThan(self, ctx:BazilioParser.LessThanContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#LessThanOrEqualsTo.
+    def visitLessThanOrEqualsTo(self, ctx:BazilioParser.LessThanOrEqualsToContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Subtraction.
+    def visitSubtraction(self, ctx:BazilioParser.SubtractionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Number.
+    def visitNumber(self, ctx:BazilioParser.NumberContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Expression.
+    def visitExpression(self, ctx:BazilioParser.ExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#GreaterThan.
+    def visitGreaterThan(self, ctx:BazilioParser.GreaterThanContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Note.
+    def visitNote(self, ctx:BazilioParser.NoteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Division.
+    def visitDivision(self, ctx:BazilioParser.DivisionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#EqualsTo.
+    def visitEqualsTo(self, ctx:BazilioParser.EqualsToContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#QueryExpression.
+    def visitQueryExpression(self, ctx:BazilioParser.QueryExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BazilioParser#Module.
+    def visitModule(self, ctx:BazilioParser.ModuleContext):
         return self.visitChildren(ctx)
 
 

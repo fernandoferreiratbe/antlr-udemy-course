@@ -1114,20 +1114,20 @@ class BazilioParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def sizeFromList(self):
-            return self.getTypedRuleContext(BazilioParser.SizeFromListContext,0)
+
+        def getRuleIndex(self):
+            return BazilioParser.RULE_expr
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
-        def query(self):
-            return self.getTypedRuleContext(BazilioParser.QueryContext,0)
+    class MultiplicationContext(ExprContext):
 
-
-        def list_(self):
-            return self.getTypedRuleContext(BazilioParser.ListContext,0)
-
-
-        def LEFT_PARANTHESES(self):
-            return self.getToken(BazilioParser.LEFT_PARANTHESES, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def expr(self, i:int=None):
             if i is None:
@@ -1135,61 +1135,368 @@ class BazilioParser ( Parser ):
             else:
                 return self.getTypedRuleContext(BazilioParser.ExprContext,i)
 
+        def MUL(self):
+            return self.getToken(BazilioParser.MUL, 0)
 
-        def RIGHT_PARANTHESES(self):
-            return self.getToken(BazilioParser.RIGHT_PARANTHESES, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultiplication" ):
+                return visitor.visitMultiplication(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class VariableContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def VAR(self):
             return self.getToken(BazilioParser.VAR, 0)
 
-        def STRING(self):
-            return self.getToken(BazilioParser.STRING, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVariable" ):
+                return visitor.visitVariable(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def NUM(self):
-            return self.getToken(BazilioParser.NUM, 0)
 
-        def NOTE(self):
-            return self.getToken(BazilioParser.NOTE, 0)
+    class ListExpressionContext(ExprContext):
 
-        def MUL(self):
-            return self.getToken(BazilioParser.MUL, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
-        def DIV(self):
-            return self.getToken(BazilioParser.DIV, 0)
+        def list_(self):
+            return self.getTypedRuleContext(BazilioParser.ListContext,0)
 
-        def MOD(self):
-            return self.getToken(BazilioParser.MOD, 0)
 
-        def SUM(self):
-            return self.getToken(BazilioParser.SUM, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitListExpression" ):
+                return visitor.visitListExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def SUB(self):
-            return self.getToken(BazilioParser.SUB, 0)
 
-        def GT(self):
-            return self.getToken(BazilioParser.GT, 0)
+    class NotEqualsToContext(ExprContext):
 
-        def LT(self):
-            return self.getToken(BazilioParser.LT, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
-        def GET(self):
-            return self.getToken(BazilioParser.GET, 0)
-
-        def LET(self):
-            return self.getToken(BazilioParser.LET, 0)
-
-        def EQ(self):
-            return self.getToken(BazilioParser.EQ, 0)
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
 
         def NEQ(self):
             return self.getToken(BazilioParser.NEQ, 0)
 
-        def getRuleIndex(self):
-            return BazilioParser.RULE_expr
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNotEqualsTo" ):
+                return visitor.visitNotEqualsTo(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class GreaterThanOrEqualsToContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def GET(self):
+            return self.getToken(BazilioParser.GET, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpr" ):
-                return visitor.visitExpr(self)
+            if hasattr( visitor, "visitGreaterThanOrEqualsTo" ):
+                return visitor.visitGreaterThanOrEqualsTo(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class SumContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def SUM(self):
+            return self.getToken(BazilioParser.SUM, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSum" ):
+                return visitor.visitSum(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class StringContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def STRING(self):
+            return self.getToken(BazilioParser.STRING, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitString" ):
+                return visitor.visitString(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ListSizeContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def sizeFromList(self):
+            return self.getTypedRuleContext(BazilioParser.SizeFromListContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitListSize" ):
+                return visitor.visitListSize(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class LessThanContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def LT(self):
+            return self.getToken(BazilioParser.LT, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLessThan" ):
+                return visitor.visitLessThan(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class LessThanOrEqualsToContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def LET(self):
+            return self.getToken(BazilioParser.LET, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLessThanOrEqualsTo" ):
+                return visitor.visitLessThanOrEqualsTo(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class SubtractionContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def SUB(self):
+            return self.getToken(BazilioParser.SUB, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubtraction" ):
+                return visitor.visitSubtraction(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class NumberContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def NUM(self):
+            return self.getToken(BazilioParser.NUM, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumber" ):
+                return visitor.visitNumber(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ExpressionContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def LEFT_PARANTHESES(self):
+            return self.getToken(BazilioParser.LEFT_PARANTHESES, 0)
+        def expr(self):
+            return self.getTypedRuleContext(BazilioParser.ExprContext,0)
+
+        def RIGHT_PARANTHESES(self):
+            return self.getToken(BazilioParser.RIGHT_PARANTHESES, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpression" ):
+                return visitor.visitExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class GreaterThanContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def GT(self):
+            return self.getToken(BazilioParser.GT, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGreaterThan" ):
+                return visitor.visitGreaterThan(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class NoteContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def NOTE(self):
+            return self.getToken(BazilioParser.NOTE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNote" ):
+                return visitor.visitNote(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class DivisionContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def DIV(self):
+            return self.getToken(BazilioParser.DIV, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDivision" ):
+                return visitor.visitDivision(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class EqualsToContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def EQ(self):
+            return self.getToken(BazilioParser.EQ, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEqualsTo" ):
+                return visitor.visitEqualsTo(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class QueryExpressionContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def query(self):
+            return self.getTypedRuleContext(BazilioParser.QueryContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQueryExpression" ):
+                return visitor.visitQueryExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ModuleContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a BazilioParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(BazilioParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(BazilioParser.ExprContext,i)
+
+        def MOD(self):
+            return self.getToken(BazilioParser.MOD, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitModule" ):
+                return visitor.visitModule(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -1208,21 +1515,34 @@ class BazilioParser ( Parser ):
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,8,self._ctx)
             if la_ == 1:
+                localctx = BazilioParser.ListSizeContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
+
                 self.state = 132
                 self.sizeFromList()
                 pass
 
             elif la_ == 2:
+                localctx = BazilioParser.QueryExpressionContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 133
                 self.query()
                 pass
 
             elif la_ == 3:
+                localctx = BazilioParser.ListExpressionContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 134
                 self.list_()
                 pass
 
             elif la_ == 4:
+                localctx = BazilioParser.ExpressionContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 135
                 self.match(BazilioParser.LEFT_PARANTHESES)
                 self.state = 136
@@ -1232,21 +1552,33 @@ class BazilioParser ( Parser ):
                 pass
 
             elif la_ == 5:
+                localctx = BazilioParser.VariableContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 139
                 self.match(BazilioParser.VAR)
                 pass
 
             elif la_ == 6:
+                localctx = BazilioParser.StringContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 140
                 self.match(BazilioParser.STRING)
                 pass
 
             elif la_ == 7:
+                localctx = BazilioParser.NumberContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 141
                 self.match(BazilioParser.NUM)
                 pass
 
             elif la_ == 8:
+                localctx = BazilioParser.NoteContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 142
                 self.match(BazilioParser.NOTE)
                 pass
@@ -1265,7 +1597,7 @@ class BazilioParser ( Parser ):
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
                     if la_ == 1:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.MultiplicationContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 145
                         if not self.precpred(self._ctx, 19):
@@ -1278,7 +1610,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 2:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.DivisionContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 148
                         if not self.precpred(self._ctx, 18):
@@ -1291,7 +1623,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 3:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.ModuleContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 151
                         if not self.precpred(self._ctx, 17):
@@ -1304,7 +1636,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 4:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.SumContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 154
                         if not self.precpred(self._ctx, 16):
@@ -1317,7 +1649,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 5:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.SubtractionContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 157
                         if not self.precpred(self._ctx, 15):
@@ -1330,7 +1662,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 6:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.GreaterThanContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 160
                         if not self.precpred(self._ctx, 14):
@@ -1343,7 +1675,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 7:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.LessThanContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 163
                         if not self.precpred(self._ctx, 13):
@@ -1356,7 +1688,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 8:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.GreaterThanOrEqualsToContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 166
                         if not self.precpred(self._ctx, 12):
@@ -1369,7 +1701,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 9:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.LessThanOrEqualsToContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 169
                         if not self.precpred(self._ctx, 11):
@@ -1382,7 +1714,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 10:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.EqualsToContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 172
                         if not self.precpred(self._ctx, 10):
@@ -1395,7 +1727,7 @@ class BazilioParser ( Parser ):
                         pass
 
                     elif la_ == 11:
-                        localctx = BazilioParser.ExprContext(self, _parentctx, _parentState)
+                        localctx = BazilioParser.NotEqualsToContext(self, BazilioParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
                         self.state = 175
                         if not self.precpred(self._ctx, 9):
