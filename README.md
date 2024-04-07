@@ -18,7 +18,7 @@ antlr4 -Dlanguage=Python3 -no-listener -visitor <grammar_name>.g4
 ## Project Structure
 
 - **Introduction package** contains the fundamentals concepts needs to implement bazilio language
-- **baziliolanguage package** contains grammar, source code and resources to handle the bazilio language transpiler
+- **baziliolanguage package** contains grammar, source code and resources to handle the bazilio language interpreter
 
 
 ## Documentation
