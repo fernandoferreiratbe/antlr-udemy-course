@@ -25,6 +25,7 @@ class Process:
 
 
 class Visitor(BazilioVisitor):
+
     def __init__(self, entry_proc='Main', entry_params=[]):
         self.entry_proc = entry_proc
         self.entry_params = entry_params
@@ -132,7 +133,12 @@ class Visitor(BazilioVisitor):
         self.__proc__(name=name, params_values=parameters)
 
     def visitCondition(self, ctx: BazilioParser.ConditionContext):
-        return super().visitCondition(ctx)
+        nodes = list(ctx.getChildren())
+        if self.visit(nodes[1]) == 1:
+            self.visit(nodes[3])
+        elif len(nodes) > 5:  # else EXISTS
+            if ctx.getChild(5).getText() == 'else':
+                self.visit(ctx.instructions(1))
 
     def visitWhile_(self, ctx: BazilioParser.While_Context):
         nodes = list(ctx.getChildren())
@@ -149,7 +155,14 @@ class Visitor(BazilioVisitor):
         return super().visitSizeFromList(ctx)
 
     def visitQuery(self, ctx: BazilioParser.QueryContext):
-        return super().visitQuery(ctx)
+        nodes = list(ctx.getChildren())
+        index = self.visit(nodes[2])
+
+        list_size = len(self.stack[-1][ctx.VAR().getText()])
+        if index < 1 or index > list_size:
+            raise BazilioException(f"index {str(index)} does not belong {ctx.VAR().getText()}")
+
+        return (self.stack[-1][ctx.VAR().getText()])[index-1]
 
     def visitExpr(self, ctx: BazilioParser.ExprContext):
         return super().visitExpr(ctx)
@@ -162,4 +175,73 @@ class Visitor(BazilioVisitor):
         return param_list
 
     def visitList(self, ctx: BazilioParser.ListContext):
-        return super().visitList(ctx)
+        nodes = list(ctx.getChildren())
+        values = [self.visit(child) for child in nodes[1: -1]]
+        return values
+
+    def visitMultiplication(self, ctx: BazilioParser.MultiplicationContext):
+        nodes = list(ctx.getChildren())
+        return self.visit(nodes[0]) * self.visit(nodes[2])
+
+    def visitVariable(self, ctx: BazilioParser.VariableContext):
+        return self.stack[-1][ctx.VAR().getText()]
+
+    def visitListExpression(self, ctx: BazilioParser.ListExpressionContext):
+        return super().visitListExpression(ctx)
+
+    def visitNotEqualsTo(self, ctx: BazilioParser.NotEqualsToContext):
+        return super().visitNotEqualsTo(ctx)
+
+    def visitGreaterThanOrEqualsTo(self, ctx: BazilioParser.GreaterThanOrEqualsToContext):
+        return super().visitGreaterThanOrEqualsTo(ctx)
+
+    def visitSum(self, ctx: BazilioParser.SumContext):
+        return super().visitSum(ctx)
+
+    def visitString(self, ctx: BazilioParser.StringContext):
+        nodes = list(ctx.getChildren())
+        value = nodes[0].getText()
+        return value[1:-1]
+
+    def visitListSize(self, ctx: BazilioParser.ListSizeContext):
+        size = len(self.stack[-1][ctx.VAR().getText()])
+        return size
+
+    def visitLessThan(self, ctx: BazilioParser.LessThanContext):
+        return super().visitLessThan(ctx)
+
+    def visitLessThanOrEqualsTo(self, ctx: BazilioParser.LessThanOrEqualsToContext):
+        return super().visitLessThanOrEqualsTo(ctx)
+
+    def visitSubtraction(self, ctx: BazilioParser.SubtractionContext):
+        return super().visitSubtraction(ctx)
+
+    def visitNumber(self, ctx: BazilioParser.NumberContext):
+        return int(ctx.NUM().getText())
+
+    def visitExpression(self, ctx: BazilioParser.ExpressionContext):
+        return super().visitExpression(ctx)
+
+    def visitGreaterThan(self, ctx: BazilioParser.GreaterThanContext):
+        return super().visitGreaterThan(ctx)
+
+    def visitNote(self, ctx: BazilioParser.NoteContext):
+        return super().visitNote(ctx)
+
+    def visitDivision(self, ctx: BazilioParser.DivisionContext):
+        nodes = list(ctx.getChildren())
+        den = self.visit(nodes[2])
+        if den == 0:
+            raise BazilioException("Division by zero.")
+        return self.visit(nodes[0]) / den
+
+    def visitEqualsTo(self, ctx: BazilioParser.EqualsToContext):
+        return super().visitEqualsTo(ctx)
+
+    def visitQueryExpression(self, ctx: BazilioParser.QueryExpressionContext):
+        return super().visitQueryExpression(ctx)
+
+    def visitModule(self, ctx: BazilioParser.ModuleContext):
+        nodes = list(ctx.getChildren())
+        module = self.visit(nodes[0]) % self.visit(nodes[2])
+        return module
