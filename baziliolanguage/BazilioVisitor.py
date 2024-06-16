@@ -1,4 +1,4 @@
-# Generated from baziliolanguage/Bazilio.g4 by ANTLR 4.13.1
+# Generated from Bazilio.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .BazilioParser import BazilioParser
